@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar-right.component.css']
 })
 export class SidebarRightComponent {
-
+  events = [
+    { day: 20, month: 'February', title: 'Group Training', location: 'Madrid, Spain' },
+    { day: 22, month: 'July', title: 'Group Training', location: 'Venice, Italy' }
+  ];
 }

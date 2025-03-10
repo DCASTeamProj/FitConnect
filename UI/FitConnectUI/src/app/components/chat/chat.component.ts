@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
-
+  onlineUsers = [
+    { image: 'assets/images/mike.jpg', name: 'Iron Mike' },
+    { image: 'assets/images/DPHeadshot.jpg', name: 'Mr. Pool' },
+    { image: 'assets/images/jim.jpg', name: 'Big Tuna' }
+  ];
 }

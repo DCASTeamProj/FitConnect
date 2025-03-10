@@ -9,6 +9,7 @@ import { SidebarRightComponent } from './components/sidebar-right/sidebar-right.
 import { StoryComponent } from './components/story/story.component';
 import { PostComponent } from './components/post/post.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ChatComponent } from './components/chat/chat.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

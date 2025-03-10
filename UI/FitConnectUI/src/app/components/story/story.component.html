@@ -1,1 +1,10 @@
-<p>story works!</p>
+<div class="story-container">
+    <div class="story">
+        <i class="fa-solid fa-circle-plus custom-icon"></i>
+        <p>Post New Story</p>
+    </div>    
+    <div class="story" *ngFor="let story of stories">
+        <img [src]="story.image">
+        <p>{{ story.name }}</p>
+    </div>    
+</div>
