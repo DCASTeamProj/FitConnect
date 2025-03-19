@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-write-post',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./write-post.component.css']
 })
 export class WritePostComponent {
-
+  faCaretDown = faCaretDown;
 }
