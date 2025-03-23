@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -13,7 +13,7 @@ export class NewUserDialogComponent {
   selectedFile: File | null = null;
 
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<NewUserDialogComponent>) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -33,12 +33,12 @@ export class NewUserDialogComponent {
       if (this.selectedFile) {
         console.log("Selected File:", this.selectedFile.name);
       }
-      this.router.navigate(['/']);
-      // add logic to call service and save user
+      this.dialogRef.close();
+      // Add logic to save user data
     }
   }
 
   onCancel(): void {
-    this.router.navigate(['/']);
+    this.dialogRef.close();
   }
 }

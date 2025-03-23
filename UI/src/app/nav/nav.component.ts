@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NewUserDialogComponent } from '../new-user-dialog/new-user-dialog.component';
 
 @Component({
   selector: 'app-nav',
@@ -8,8 +10,14 @@ import { Component } from '@angular/core';
 export class NavComponent {
   searchQuery: string = '';
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
+  openNewUserDialog(): void {
+    this.dialog.open(NewUserDialogComponent, {
+      width: '400px',
+      disableClose: true
+    });
+  }  
 
   //add logic to search for users in
    onSearch() {
