@@ -15,17 +15,17 @@
       <!-- <div class="nav-user-icon">
         <img src="assets/images/me.jpg">
       </div> -->
-      <mat-toolbar color="primary">
+      <!-- <mat-toolbar color="primary" class="toolbar"> -->
         <span class="spacer"></span>
-        <mat-form-field>
+        <mat-form-field class="search-field">
           <mat-label>Search User</mat-label>
           <input matInput (input)="onSearch()" placeholder="Search">
         </mat-form-field>
         <div class="nav-user-icon">
-          <img src="assets/images/me.jpg">
+          <img src="assets/images/me.jpg" alt="User Icon">
         </div>
         <button mat-raised-button color="accent" (click)="openNewUserDialog()">New User</button>
-      </mat-toolbar>
+      <!-- </mat-toolbar> -->
     </div>
   </nav>
 
