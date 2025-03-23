@@ -1,3 +1,9 @@
+:root {
+  --primary-color: #1a855e; /* Your new primary color */
+  --accent-color: #1a855e;  /* Matching the primary color for a single palette */
+  --warn-color: #b71c1c;    /* Optional: Keep red for warnings */
+}
+
 nav {
     display: flex;
     align-items: center;
@@ -9,11 +15,29 @@ nav {
     z-index: 100;
   }
   
-  .logo {
+  .logo-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.logo {
     width: 160px;
-    margin-right: 45px;
     height: 100px;
-  }
+}
+
+.app-title {
+    font-family: "Courier New", Courier, monospace; 
+    font-size: 30px; 
+    color: white; 
+    text-align: center;
+    margin-left: 8px;
+    z-index: 1;
+    top: 80px;
+    position: absolute;
+    margin-bottom: 10px;
+
+}
   
   .nav-left, .nav-right {
     display: flex;
