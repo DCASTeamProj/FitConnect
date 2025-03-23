@@ -8,12 +8,26 @@
       </ul>
     </div>
     <div class="nav-right">
-      <div class="search-box">
+      <!-- <div class="search-box">
         <img src="assets/images/search.png">
         <input type="text" placeholder="Search">
-      </div>
-      <div class="nav-user-icon">
+      </div> -->
+      <!-- <div class="nav-user-icon">
         <img src="assets/images/me.jpg">
-      </div>
+      </div> -->
+      <mat-toolbar color="primary">
+        <span class="spacer"></span>
+        <mat-form-field>
+          <mat-label>Search User</mat-label>
+          <input matInput (input)="onSearch()" placeholder="Search">
+        </mat-form-field>
+        <div class="nav-user-icon">
+          <img src="assets/images/me.jpg">
+        </div>
+        <button mat-raised-button color="accent" routerLink="/new-user">New User</button>
+      </mat-toolbar>
     </div>
   </nav>
+
+ 
+  
