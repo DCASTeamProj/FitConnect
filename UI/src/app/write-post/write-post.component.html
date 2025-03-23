@@ -1,18 +1,51 @@
-<div class="write-post-container">
-    <div class="user-profile">
-      <img src="assets/images/profilePic.jpg">
-      <div>
-        <p>Baby</p>
-        <small>Public <fa-icon [icon]="faCaretDown"></fa-icon></small>
-      </div>
-    </div>
-  
-    <div class="post-input-container">
-      <textarea rows="3" placeholder="What's on your mind, Baby?"></textarea>
-      <div class="add-post-links">
-        <a href="#"><img src="assets/images/live-video.png"> Live Video</a>
-        <a href="#"><img src="assets/images/photo.png"> Photos or Video</a>
-        <a href="#"><img src="assets/images/feeling.png"> Feeling</a>
-      </div>
+<mat-card class="write-post-container">
+  <div class="user-profile">
+    <img src="assets/images/profilePic.jpg" alt="Profile Picture">
+    <div>
+      <p>Baby</p>
     </div>
   </div>
+
+  <div class="post-input-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <textarea matInput [(ngModel)]="newPost" rows="3" placeholder="What's on your mind?"></textarea>
+    </mat-form-field>
+
+    <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*,video/*" style="display: none;"/>
+
+    <div *ngIf="mediaPreview" class="preview-container">
+      <img *ngIf="mediaType === 'image'" [src]="mediaPreview" alt="Preview" class="preview-image" />
+      <video *ngIf="mediaType === 'video'" [src]="mediaPreview" controls class="preview-video"></video>
+    </div>
+
+    <div class="post-actions">
+      <div class="add-post-links">
+        <button mat-button (click)="fileInput.click()">
+          <span class="material-icons">videocam</span> Pic/Video
+        </button>
+        
+        <button mat-button>
+          <span class="material-icons">mood</span> Feeling
+        </button>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="addPost()" [disabled]="!newPost.trim()">Post</button>
+    </div>
+  </div>
+</mat-card>
+
+<!-- Posts List -->
+<div *ngFor="let post of posts" class="post-container">
+  <mat-card class="post-card">
+    <div class="post-header">
+      <img src="assets/images/profilePic.jpg" alt="Profile Picture">
+      <div>
+        <p>Baby</p>
+        <small>Just now</small>
+      </div>
+    </div>
+    <p class="post-content">{{ post.text }}</p>
+    <img *ngIf="post.mediaType === 'image'" [src]="post.mediaUrl" alt="Post Image" class="post-image" />
+    <video *ngIf="post.mediaType === 'video'" [src]="post.mediaUrl" controls class="post-video"></video>
+  </mat-card>
+</div>
