@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../Models/user.model';
 
 @Component({
   selector: 'app-write-post',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./write-post.component.css']
 })
 export class WritePostComponent {
+  @Input() user: any;
 
   newPost: string = '';
   posts: Array<{ text: string; mediaUrl?: string; mediaType?: 'image' | 'video' }> = [];

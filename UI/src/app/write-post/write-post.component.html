@@ -1,8 +1,13 @@
 <mat-card class="write-post-container">
   <div class="user-profile">
-    <img src="assets/images/profilePic.jpg" alt="Profile Picture">
+    <ng-container *ngIf="user?.profilePicture; else defaultIcon">
+      <img [src]="user?.profilePicture" alt="User Icon">
+    </ng-container>
+    <ng-template #defaultIcon>
+      <mat-icon class="default-icon">account_circle</mat-icon>
+    </ng-template>
     <div>
-      <p>Baby</p>
+      <p>{{ user?.username || 'Oops! Please pick user.' }}</p>
     </div>
   </div>
 

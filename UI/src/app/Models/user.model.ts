@@ -5,5 +5,5 @@ export interface User {
     username: string;
     birthDate?: string; // Optional
     bio?: string; // Optional
-    profilePicture?: File; // Optional
+    profilePicture?: string; // Optional
   }
