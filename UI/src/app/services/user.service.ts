@@ -25,8 +25,8 @@ export class UserService {
   getUsers(): Observable<User[]> {
     // Mock user data
     const mockUsers: User[] = [
-      { id: '1', firstName: 'John', lastName: 'Doe', username: 'johndoe', profilePicture: 'assets/images/me.jpg' },
-      { id: '2', firstName: 'Jane', lastName: 'Smith', username: 'janesmith', profilePicture: 'assets/images/DPHeadshot.jpg' }
+      { id: '1', firstName: 'John', lastName: 'Doe', username: 'JohnDoe21', profilePicture: 'assets/images/me.jpg' },
+      { id: '2', firstName: 'Jane', lastName: 'Smith', username: 'JaneSmith88', profilePicture: 'assets/images/DPHeadshot.jpg' }
     ];
     return of(mockUsers);
   }

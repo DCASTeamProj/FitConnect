@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewUserDialogComponent } from '../new-user-dialog/new-user-dialog.component';
 import { User } from '../Models/user.model';
@@ -10,30 +10,16 @@ import { UserService } from '../services/user.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit{
+export class NavComponent {
+  @Input() users: User[] = []; //Get users from parent
+  @Input() selectedUser: User | null = null; //get selected user from parent
+  @Output() userSelected = new EventEmitter<User>(); //Emits selected user so other components can use
   searchQuery: string = '';
-  users: User[] = []; 
-  selectedUser: User | null = null; //holds currently selected user
 
   constructor(public dialog: MatDialog, private userService: UserService) {}
 
-  ngOnInit(): void {
-    this.loadUsers(); // loads users when component initializes to reduce delay
-  }
-
-  loadUsers(): void {
-    this.userService.getUsers().subscribe(
-      (data) => {
-        this.users = data;
-      },
-    (error) => {
-        console.error('Error fetching users:', error);
-      }
-    );
-  }
-
   onUserSelect(user: User): void {
-    this.selectedUser = user; // updates the selcted user
+    this.userSelected.emit(user); // Emit the selected user
     console.log('Selected user:', user);
   }
 
@@ -44,7 +30,7 @@ export class NavComponent implements OnInit{
     });
   }  
 
-  //add logic to search for users in
+  //add logic to search
    onSearch() {
   console.log('Search query:', this.searchQuery);
 

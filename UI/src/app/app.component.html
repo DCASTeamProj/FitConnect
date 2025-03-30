@@ -1,12 +1,22 @@
 <!-- Toolbar -->
-<app-nav></app-nav>
+<app-nav 
+[users]="users" 
+[selectedUser]="selectedUser"
+(userSelected)="onUserSelected($event)"></app-nav>
 
 <div class="container">
   <!-- Left Sidebar -->
   <app-left-sidebar></app-left-sidebar>
 
   <!-- Main Content -->
-  <app-main-content></app-main-content>
+  <div class="main-content">
+    <app-story></app-story>
+
+    <!--passes selected user-->
+    <app-write-post [user]="selectedUser"></app-write-post> 
+
+    <app-post></app-post>
+  </div>
 
   <!-- Right Sidebar -->
   <app-right-sidebar></app-right-sidebar>
