@@ -10,9 +10,10 @@ import { UserService } from '../services/user.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent implements OnInit{
   searchQuery: string = '';
   users: User[] = []; 
+  selectedUser: User | null = null; //holds currently selected user
 
   constructor(public dialog: MatDialog, private userService: UserService) {}
 
@@ -32,6 +33,7 @@ export class NavComponent {
   }
 
   onUserSelect(user: User): void {
+    this.selectedUser = user; // updates the selcted user
     console.log('Selected user:', user);
   }
 
