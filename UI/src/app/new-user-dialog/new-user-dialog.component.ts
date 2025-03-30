@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../services/user.service';
+import { User } from '../Models/user.model'; 
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -14,7 +15,11 @@ export class NewUserDialogComponent {
   selectedFile: File | null = null;
 
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<NewUserDialogComponent>, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder, 
+    private dialogRef: MatDialogRef<NewUserDialogComponent>, 
+    private userService: UserService) 
+    {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -40,9 +45,9 @@ export class NewUserDialogComponent {
         formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
       }
       this.userService.createUser(formData).subscribe({
-        next: (response) => {
+        next: (response: User) => {
           console.log('User created successfully', response);
-          this.dialogRef.close(); // Close the dialog and return true
+          this.dialogRef.close(); 
         },
         error: (error) => {
           console.error('Error creating user', error);

@@ -14,12 +14,24 @@
   
         <span class="spacer"></span>
         <mat-form-field class="search-field">
-          <mat-label>Search User</mat-label>
+          <mat-label>Search</mat-label>
           <input matInput (input)="onSearch()">
         </mat-form-field>
-        <div class="nav-user-icon">
+        <div class="nav-user-icon" matTooltip="Switch User" [matMenuTriggerFor]="userMenu">
           <img src="assets/images/me.jpg" alt="User Icon">
         </div>
+
+        <mat-menu #userMenu="matMenu">
+          <ng-container *ngIf="users && users.length; else noUsers">
+            <button mat-menu-item *ngFor="let user of users" (click)="onUserSelect(user)">
+              {{ user.username }}
+            </button>
+          </ng-container>
+          <ng-template #noUsers>
+            <span class="no-users">No users found</span>
+          </ng-template>
+        </mat-menu>
+
         <button mat-raised-button color="accent" (click)="openNewUserDialog()">New User</button>
     </div>
   </nav>

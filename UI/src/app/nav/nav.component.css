@@ -78,3 +78,12 @@ nav {
 button {
   margin-bottom: 10px; 
 }
+
+.nav-user-icon {
+  cursor: pointer;
+}
+
+.no-users {
+  padding: 8px;
+  color: gray;
+}
