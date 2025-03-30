@@ -1,0 +1,26 @@
+:root {
+  --primary-color: #1a855e; /* Your new primary color */
+  --accent-color: #1a855e;  /* Matching the primary color for a single palette */
+  --warn-color: #b71c1c;    /* Optional: Keep red for warnings */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.file-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #555; /* Adjust color as needed */
+}

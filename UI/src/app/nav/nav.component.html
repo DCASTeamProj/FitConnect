@@ -1,6 +1,9 @@
 <nav>
     <div class="nav-left">
-      <img src="assets/images/fitnessLogo.png" class="logo">
+      <div class="logo-container">
+        <img src="assets/images/fitnessLogo.png" class="logo" alt="Fitness Logo">
+        <span class="app-title w3-monospace">FitConnect</span>
+      </div>
       <ul>
         <li><img src="assets/images/notification.png"></li>
         <li><img src="assets/images/inbox.png"></li>
@@ -8,12 +11,30 @@
       </ul>
     </div>
     <div class="nav-right">
-      <div class="search-box">
-        <img src="assets/images/search.png">
-        <input type="text" placeholder="Search">
-      </div>
-      <div class="nav-user-icon">
-        <img src="assets/images/me.jpg">
-      </div>
+  
+        <span class="spacer"></span>
+        <mat-form-field class="search-field">
+          <mat-label>Search</mat-label>
+          <input matInput (input)="onSearch()">
+        </mat-form-field>
+        <div class="nav-user-icon" matTooltip="Switch User" [matMenuTriggerFor]="userMenu">
+          <img src="assets/images/me.jpg" alt="User Icon">
+        </div>
+
+        <mat-menu #userMenu="matMenu">
+          <ng-container *ngIf="users && users.length; else noUsers">
+            <button mat-menu-item *ngFor="let user of users" (click)="onUserSelect(user)">
+              {{ user.username }}
+            </button>
+          </ng-container>
+          <ng-template #noUsers>
+            <span class="no-users">No users found</span>
+          </ng-template>
+        </mat-menu>
+
+        <button mat-raised-button color="accent" (click)="openNewUserDialog()">New User</button>
     </div>
   </nav>
+
+ 
+  
