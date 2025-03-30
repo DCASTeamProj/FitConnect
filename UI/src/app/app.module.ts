@@ -24,6 +24,7 @@ import { EventComponent } from './event/event.component';
 import { OnlineListComponent } from './online-list/online-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NewUserDialogComponent } from './new-user-dialog/new-user-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { NewUserDialogComponent } from './new-user-dialog/new-user-dialog.compon
     ReactiveFormsModule,
     MatButtonModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

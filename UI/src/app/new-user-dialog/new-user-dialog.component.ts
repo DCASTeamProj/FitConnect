@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -13,13 +14,13 @@ export class NewUserDialogComponent {
   selectedFile: File | null = null;
 
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<NewUserDialogComponent>) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<NewUserDialogComponent>, private userService: UserService) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       username: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      city: ['']
+      birthDate: [''],
+      bio: ['']
     });
   }
 
@@ -29,12 +30,25 @@ export class NewUserDialogComponent {
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      console.log("Form Submitted:", this.userForm.value);
+      const formData = new FormData();
+      formData.append('firstName', this.userForm.get('firstName')?.value);
+      formData.append('lastName', this.userForm.get('lastName')?.value);
+      formData.append('username', this.userForm.get('username')?.value);
+      formData.append('birthDate', this.userForm.get('birthDate')?.value);
+      formData.append('bio', this.userForm.get('bio')?.value);
       if (this.selectedFile) {
-        console.log("Selected File:", this.selectedFile.name);
+        formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
       }
-      this.dialogRef.close();
-      // Add logic to save user data
+      this.userService.createUser(formData).subscribe({
+        next: (response) => {
+          console.log('User created successfully', response);
+          this.dialogRef.close(); // Close the dialog and return true
+        },
+        error: (error) => {
+          console.error('Error creating user', error);
+          alert('An error occurred while creating the user. Please try again.');
+        }
+    });
     }
   }
 
