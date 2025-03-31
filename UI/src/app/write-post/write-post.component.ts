@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { User } from '../Models/user.model';
+import { PostService } from '../services/post.service';
+import { Post } from '../Models/post.models';
 
 @Component({
   selector: 'app-write-post',
@@ -10,10 +12,32 @@ export class WritePostComponent {
   @Input() user: any;
 
   newPost: string = '';
-  posts: Array<{ text: string; mediaUrl?: string; mediaType?: 'image' | 'video' }> = [];
+  posts: Post[] = [];
   selectedFile: File | null = null;
-  mediaPreview: string | null = null; // Stores preview URL
+  mediaPreview: string | null = null;
   mediaType: 'image' | 'video' | null = null;
+
+  constructor(private postService: PostService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['user'] && this.user) {
+      this.loadUserPosts(); // Loads posts when user changes
+    } 
+  }
+
+  loadUserPosts(): void {
+    if (this.user) {
+      const userId = (this.user as { id: number }).id; // Type assertion for user ID
+      this.postService.getUserPosts(userId).subscribe({
+        next: (data) => {
+          this.posts = data.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime());
+        },
+        error: (error) => {
+          console.error('Error fetching user posts:', error);
+        }
+      });
+    }
+  }
 
   // Handles file selection and updates preview
   onFileSelected(event: Event): void {
@@ -34,16 +58,21 @@ export class WritePostComponent {
 
   // Add post dynamically
   addPost(): void {
-    if (!this.newPost.trim() && !this.selectedFile) return; // Prevents empty posts
+    if (!this.newPost.trim()) return;
 
-    const newPostData: { text: string; mediaUrl?: string; mediaType?: 'image' | 'video' } = {
-      text: this.newPost,
-      mediaUrl: this.mediaPreview ?? undefined, // Uses previewed media
-      mediaType: this.mediaType ?? undefined
+    const newPost: Post = {
+      user: this.user!.id,
+      content: this.newPost,
+      image: this.mediaPreview || undefined
     };
 
-    this.posts.unshift(newPostData); // Add post to top of list
-    this.resetForm();
+    this.postService.createPost(newPost).subscribe({
+      next: (createdPost: Post) => {
+        this.posts.unshift(createdPost); // Add the new post to the top of the list
+        this.resetForm();
+      },
+      error: (err: any) => console.error('Error creating post:', err)
+    });
   }
 
   // Resets the form fields
@@ -51,6 +80,6 @@ export class WritePostComponent {
     this.newPost = '';
     this.selectedFile = null;
     this.mediaPreview = null;
-    this.mediaType = null;
+    
   }
 }

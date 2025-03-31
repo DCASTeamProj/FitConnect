@@ -16,7 +16,7 @@
       <textarea matInput [(ngModel)]="newPost" rows="3" placeholder="What's on your mind?"></textarea>
     </mat-form-field>
 
-    <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*,video/*" style="display: none;"/>
+    <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*,video/*" style="display: none;" />
 
     <div *ngIf="mediaPreview" class="preview-container">
       <img *ngIf="mediaType === 'image'" [src]="mediaPreview" alt="Preview" class="preview-image" />
@@ -28,7 +28,7 @@
         <button mat-button (click)="fileInput.click()">
           <span class="material-icons">videocam</span> Pic/Video
         </button>
-        
+
         <button mat-button>
           <span class="material-icons">mood</span> Feeling
         </button>
@@ -43,14 +43,13 @@
 <div *ngFor="let post of posts" class="post-container">
   <mat-card class="post-card">
     <div class="post-header">
-      <img src="assets/images/profilePic.jpg" alt="Profile Picture">
+      <img [src]="user?.profilePicture || 'assets/images/profilePic.jpg'" alt="Profile Picture">
       <div>
-        <p>Baby</p>
-        <small>Just now</small>
+        <p>{{ user?.username || 'Unknown User' }}</p>
+        <small>{{ post.created_at | date: 'short' }}</small>
       </div>
     </div>
-    <p class="post-content">{{ post.text }}</p>
-    <img *ngIf="post.mediaType === 'image'" [src]="post.mediaUrl" alt="Post Image" class="post-image" />
-    <video *ngIf="post.mediaType === 'video'" [src]="post.mediaUrl" controls class="post-video"></video>
+    <p class="post-content">{{ post.content }}</p>
+    <img *ngIf="post.image" [src]="post.image" alt="Post Image" class="post-image" />
   </mat-card>
 </div>
