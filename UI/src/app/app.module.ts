@@ -26,6 +26,7 @@ import { OnlineListComponent } from './online-list/online-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NewUserDialogComponent } from './new-user-dialog/new-user-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CommentDialogComponent } from './comment-dialog/comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { HttpClientModule } from '@angular/common/http';
     PostComponent,
     EventComponent,
     OnlineListComponent,
-    NewUserDialogComponent
+    NewUserDialogComponent,
+    CommentDialogComponent
   ],
   imports: [
     BrowserModule,

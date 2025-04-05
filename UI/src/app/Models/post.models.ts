@@ -1,7 +1,10 @@
+import { PostComment } from '../Models/comment.model';
+
 export interface Post {
-    id?: number; // Optional for new posts
+    id?: number; 
     user: number; // User ID
     content: string; // Post text
-    image?: string; // url of the image (optional)
+    image?: string; 
     created_at?: Date; // date of creation (optional)
+    comments?: PostComment[];
   }

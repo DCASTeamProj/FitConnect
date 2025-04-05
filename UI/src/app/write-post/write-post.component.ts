@@ -2,6 +2,9 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { User } from '../Models/user.model';
 import { PostService } from '../services/post.service';
 import { Post } from '../Models/post.models';
+import { PostComment } from '../Models/comment.model';
+import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-write-post',
@@ -12,12 +15,13 @@ export class WritePostComponent {
   @Input() user: any;
 
   newPost: string = '';
+  newComment: string = '';
   posts: Post[] = [];
   selectedFile: File | null = null;
   mediaPreview: string | null = null;
   mediaType: 'image' | 'video' | null = null;
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService, private dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user'] && this.user) {
@@ -75,11 +79,18 @@ export class WritePostComponent {
     });
   }
 
+  showCommentDialog(post: Post): void {
+    this.dialog.open(CommentDialogComponent, {
+      width: '400px',
+      data: post
+    });
+  }
+
   // Resets the form fields
   resetForm(): void {
     this.newPost = '';
     this.selectedFile = null;
     this.mediaPreview = null;
-    
   }
+  
 }

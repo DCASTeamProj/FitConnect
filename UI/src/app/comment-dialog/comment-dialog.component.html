@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Comments</h2>
+<mat-dialog-content>
+    <div class="post-content">
+        <p>{{ post.content }}</p>
+        <img *ngIf="post.image" [src]="post.image" alt="Post Image" class="post-image" />
+    </div>
+
+    <div class="comments-section">
+        <div *ngFor="let comment of post.comments" class="comment">
+            <p class="comment-text"> {{ comment.content }}</p>
+            <small class="comment-date">{{ comment.created_at | date: 'short' }}</small>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <textarea matInput [(ngModel)]="newComment" placeholder="Add Comment"></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button color="primary" (click)="closeDialog()" class="closeButton">Close</button>
+    <button mat-raised-button color="primary" (click)="addComment()" class="add-comment-Button">Add</button>
+</mat-dialog-actions>
