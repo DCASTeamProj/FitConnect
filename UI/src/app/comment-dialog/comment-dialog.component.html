@@ -7,7 +7,7 @@
 
     <div class="comments-section">
         <div *ngFor="let comment of post.comments" class="comment">
-            <p> {{ comment.content }}</p>
+            <p class="comment-text"> {{ comment.content }}</p>
             <small class="comment-date">{{ comment.created_at | date: 'short' }}</small>
         </div>
 
