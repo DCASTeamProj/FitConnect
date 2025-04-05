@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Post } from '../Models/post.models';
+import { PostComment } from '../Models/comment.model'; 
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,18 @@ export class PostService {
   // getUserPosts(userId: number): Observable<Post[]> {
   //   return this.http.get<Post[]>(`${this.baseUrl}?user=${userId}`);
   // }
+
+  getCommments(postId: number): Observable<PostComment[]> {
+    return this.http.get<PostComment[]>(`${this.baseUrl}${postId}/comments/`);
+  }
+
+  createComment(comment: PostComment): Observable<PostComment> {
+    return this.http.post<PostComment>(`${this.baseUrl}${comment.post}/comments/`, comment);
+  }
+
+  editComment(comment: PostComment): Observable<PostComment> {
+    return this.http.put<PostComment>(`${this.baseUrl}${comment.post}/comments/${comment.id}/`, comment);
+  }
 
   // Mock use only!!
   createPost(post: Post): Observable<Post> {
