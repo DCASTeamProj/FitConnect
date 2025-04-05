@@ -20,3 +20,22 @@
     font-size: 0.8rem;
     color: #888;
   }
+
+  .add-comment-Button {
+    margin-left: auto;
+
+  }
+
+  .closeButton {
+    margin-right: auto;
+  }
+
+  .comments-header {
+    margin-bottom: 15px;
+  }
+
+  .full-width {
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+  }
