@@ -20,7 +20,7 @@
 
         <div class="nav-user-icon" matTooltip="Switch User" [matMenuTriggerFor]="userMenu">
           <ng-container *ngIf="selectedUser; else defaultIcon">
-          <img [src]="selectedUser.profilePicture" alt="User Icon">
+          <img [src]="'http://127.0.0.1:8000/' + selectedUser.profile_picture" alt="User Icon">
           </ng-container>
           <ng-template #defaultIcon>
             <mat-icon class="default-icon">account_circle</mat-icon>

@@ -25,7 +25,8 @@ export class NewUserDialogComponent {
       lastName: ['', Validators.required],
       username: ['', Validators.required],
       birthDate: [''],
-      bio: ['']
+      bio: [''],
+      profile_picture: ['']
     });
   }
 
@@ -42,7 +43,7 @@ export class NewUserDialogComponent {
       formData.append('birthDate', this.userForm.get('birthDate')?.value);
       formData.append('bio', this.userForm.get('bio')?.value);
       if (this.selectedFile) {
-        formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
+        formData.append('profile_picture', this.selectedFile, this.selectedFile.name);
       }
       this.userService.createUser(formData).subscribe({
         next: (response: User) => {

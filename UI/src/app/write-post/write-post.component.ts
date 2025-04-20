@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './write-post.component.html',
   styleUrls: ['./write-post.component.css']
 })
-export class WritePostComponent {
-  @Input() user: any;
+export class WritePostComponent implements OnChanges {
+  @Input() user: User | null = null;
 
   newPost: string = '';
   newComment: string = '';
@@ -30,8 +30,9 @@ export class WritePostComponent {
   }
 
   loadUserPosts(): void {
-    if (this.user) {
-      const userId = (this.user as { id: number }).id; // Type assertion for user ID
+    if (this.user && this.user.id !== undefined) {
+      const userId = this.user.id; // accesses user ID number
+      // fetches post for our user
       this.postService.getUserPosts(userId).subscribe({
         next: (data) => {
           this.posts = data.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime());
@@ -63,6 +64,11 @@ export class WritePostComponent {
   // Add post dynamically
   addPost(): void {
     if (!this.newPost.trim()) return;
+
+    if (!this.user || this.user.id === undefined) {
+      console.error('User ID is missing or invalid.');
+      return;
+    }
 
     const newPost: Post = {
       user: this.user!.id,
