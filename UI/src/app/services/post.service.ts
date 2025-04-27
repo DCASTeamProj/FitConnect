@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Post } from '../Models/post.models';
 import { PostComment } from '../Models/comment.model'; 
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,23 @@ export class PostService {
 
   //use when back end is connected
   createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(this.baseUrl, post);
+    return this.http.post<Post>(this.baseUrl, post).pipe(
+      map((createdPost: Post) => {
+        // Simulate adding the created post to the top of the list (if needed)
+        console.log('API post created:', createdPost);
+        return createdPost;
+      })
+    );
   }
 
   //gets posts for selected user
   getUserPosts(userId: number): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.baseUrl}?user=${userId}`);
+    return this.http.get<Post[]>(`${this.baseUrl}?user=${userId}`).pipe(
+      map((posts: Post[]) => {
+        // Sort posts by creation date in descending order
+        return posts.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime());
+      })
+    );
   }
 
   getCommments(postId: number): Observable<PostComment[]> {

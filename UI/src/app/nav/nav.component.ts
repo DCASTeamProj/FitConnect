@@ -30,9 +30,20 @@ export class NavComponent {
     });
   }  
 
+  deleteUser(user: User): void {
+    if (confirm(`Are you sure you want to delete ${user.username}?`)) {
+      this.userService.deleteUser(user.id!).subscribe({
+        next: () => {
+          this.users = this.users.filter(u => u.id !== user.id); // Remove the user from the list
+          console.log(`${user.username} deleted successfully.`);
+        },
+        error: (err) => console.error('Error deleting user:', err)
+      });
+    }
+  }
+
   //add logic to search
    onSearch() {
   console.log('Search query:', this.searchQuery);
-
    }
 }

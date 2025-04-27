@@ -20,6 +20,13 @@ export class UserService {
     return this.http.post(this.apiUrl, user);
   }
 
+  deleteUser(userId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${userId}/`);
+  }
+
+  getUserById(userId: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}${userId}/`);
+  }
 
   //MOCK TESTING ONLY
   // getUsers(): Observable<User[]> {

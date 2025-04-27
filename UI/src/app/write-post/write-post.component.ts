@@ -5,6 +5,7 @@ import { Post } from '../Models/post.models';
 import { PostComment } from '../Models/comment.model';
 import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-write-post',
@@ -12,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./write-post.component.css']
 })
 export class WritePostComponent implements OnChanges {
-  @Input() user: User | null = null;
+  @Input() user: any;
 
   newPost: string = '';
   newComment: string = '';
@@ -21,21 +22,28 @@ export class WritePostComponent implements OnChanges {
   mediaPreview: string | null = null;
   mediaType: 'image' | 'video' | null = null;
 
-  constructor(private postService: PostService, private dialog: MatDialog) {}
+  constructor(private postService: PostService, private dialog: MatDialog, private userService: UserService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['user'] && this.user) {
+    if (changes['user'] && this.user && this.user.id) {
       this.loadUserPosts(); // Loads posts when user changes
     } 
   }
 
   loadUserPosts(): void {
-    if (this.user && this.user.id !== undefined) {
-      const userId = this.user.id; // accesses user ID number
-      // fetches post for our user
-      this.postService.getUserPosts(userId).subscribe({
+    if (this.user && this.user.id) {
+      this.postService.getUserPosts(this.user.id).subscribe({
         next: (data) => {
-          this.posts = data.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime());
+          // Fetch user details for each post
+          this.posts = data.map(post => {
+            if (typeof post.user === 'number') {
+              // Fetch user details if post.user is a user ID
+              this.userService.getUserById(post.user).subscribe(userDetails => {
+                post.user = userDetails; // Replace user ID with full user details
+              });
+            }
+            return post;
+          });
         },
         error: (error) => {
           console.error('Error fetching user posts:', error);
@@ -61,27 +69,36 @@ export class WritePostComponent implements OnChanges {
     }
   }
 
+  getUsername(post: Post): string {
+    if (typeof post.user === 'object' && post.user.username) {
+      return post.user.username;
+    }
+    return 'Unknown User';
+  }
+
+  getProfilePicture(post: Post): string {
+    if (typeof post.user === 'object' && post.user.profile_picture) {
+      return post.user.profile_picture;
+    }
+    return 'assets/images/profilePic.jpg'; 
+  }
+
   // Add post dynamically
   addPost(): void {
     if (!this.newPost.trim()) return;
 
-    if (!this.user || this.user.id === undefined) {
-      console.error('User ID is missing or invalid.');
-      return;
-    }
-
     const newPost: Post = {
-      user: this.user!.id,
+      user: this.user.id, // Associate the post with the selected user's ID
       content: this.newPost,
-      image: this.mediaPreview || undefined
+      image: undefined // Add image handling if needed
     };
 
     this.postService.createPost(newPost).subscribe({
       next: (createdPost: Post) => {
         this.posts.unshift(createdPost); // Add the new post to the top of the list
-        this.resetForm();
+        this.newPost = ''; // Clear the input field
       },
-      error: (err: any) => console.error('Error creating post:', err)
+      error: (err) => console.error('Error creating post:', err)
     });
   }
 

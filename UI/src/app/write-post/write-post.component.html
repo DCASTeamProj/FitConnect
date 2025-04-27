@@ -43,9 +43,9 @@
 <div *ngFor="let post of posts" class="post-container">
   <mat-card class="post-card">
   <div class="user-profile">
-    <img [src]="user?.profile_picture || 'assets/images/profilePic.jpg'" alt="Profile Picture">
+    <img [src]="getProfilePicture(post)" alt="Profile Picture">
     <div class="user-profile-info">
-      <p>{{ user?.username || 'Unknown User' }}</p>
+      <p>{{ getUsername(post) || 'Unknown User' }}</p>
       <small>{{ post.created_at | date: 'short' }}</small>
     </div>
   </div>

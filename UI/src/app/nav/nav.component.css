@@ -110,3 +110,9 @@ button {
   padding: 8px;
   color: gray;
 }
+
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

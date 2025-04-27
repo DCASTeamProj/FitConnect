@@ -21,6 +21,7 @@ ngOnInit(): void {
 loadUsers(): void {
   this.userService.getUsers().subscribe(
     (data) => {
+      console.log('Fetched users:', data); // Logs the fetched users
       this.users = data; // Assigns the fetched users to the component's users property
     },
     (error) => {
