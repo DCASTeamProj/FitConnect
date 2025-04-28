@@ -14,6 +14,8 @@ export class NavComponent {
   @Input() users: User[] = []; //Get users from parent
   @Input() selectedUser: User | null = null; //get selected user from parent
   @Output() userSelected = new EventEmitter<User>(); //Emits selected user so other components can use
+  @Output() userListUpdated = new EventEmitter<void>();
+  @Input() user: any; // holds the current user object
   searchQuery: string = '';
 
   constructor(public dialog: MatDialog, private userService: UserService) {}
@@ -24,9 +26,21 @@ export class NavComponent {
   }
 
   openNewUserDialog(): void {
-    this.dialog.open(NewUserDialogComponent, {
+    const dialogRef = this.dialog.open(NewUserDialogComponent, {
       width: '400px',
       disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userService.createUser(result).subscribe({
+          next: () => {
+            this.userListUpdated.emit(); // Emit event to notify parent to refresh the user list
+            console.log('New user added successfully.');
+          },
+          error: (err) => console.error('Error adding user:', err)
+        });
+      }
     });
   }  
 

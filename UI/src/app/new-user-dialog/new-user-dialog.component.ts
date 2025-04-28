@@ -37,10 +37,10 @@ export class NewUserDialogComponent {
   onSubmit(): void {
     if (this.userForm.valid) {
       const formData = new FormData();
-      formData.append('firstName', this.userForm.get('firstName')?.value);
-      formData.append('lastName', this.userForm.get('lastName')?.value);
+      formData.append('first_name', this.userForm.get('firstName')?.value);
+      formData.append('last_name', this.userForm.get('lastName')?.value);
       formData.append('username', this.userForm.get('username')?.value);
-      formData.append('birthDate', this.userForm.get('birthDate')?.value);
+      formData.append('birth_date', this.userForm.get('birthDate')?.value);
       formData.append('bio', this.userForm.get('bio')?.value);
       if (this.selectedFile) {
         formData.append('profile_picture', this.selectedFile, this.selectedFile.name);
