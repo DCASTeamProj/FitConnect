@@ -13,7 +13,7 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./write-post.component.css']
 })
 export class WritePostComponent implements OnChanges {
-  @Input() user: any;
+  @Input() user: User | null = null; // stores current user object
 
   newPost: string = '';
   newComment: string = '';
@@ -36,12 +36,21 @@ export class WritePostComponent implements OnChanges {
         next: (data) => {
           // Fetch user details for each post
           this.posts = data.map(post => {
+            post.comments = post.comments || [];
             if (typeof post.user === 'number') {
               // Fetch user details if post.user is a user ID
               this.userService.getUserById(post.user).subscribe(userDetails => {
                 post.user = userDetails; // Replace user ID with full user details
               });
             }
+
+            this.postService.getCommments(post.id!).subscribe({
+              next: (comments) => {
+                post.comments = comments; // attaches comments to post
+              },
+              error: (err) => console.error('Error fetching comments:', err)
+            });
+
             return post;
           });
         },
@@ -87,6 +96,11 @@ export class WritePostComponent implements OnChanges {
   addPost(): void {
     if (!this.newPost.trim()) return;
 
+    if (!this.user || !this.user.id) {
+      console.error('User is not selected or invalid');
+      return;
+    }
+    
     const newPost: Post = {
       user: this.user.id, // Associate the post with the selected user's ID
       content: this.newPost,
@@ -103,10 +117,11 @@ export class WritePostComponent implements OnChanges {
   }
 
   showCommentDialog(post: Post): void {
-    this.dialog.open(CommentDialogComponent, {
+    const dialogRef = this.dialog.open(CommentDialogComponent, {
       width: '400px',
       data: post
     });
+    dialogRef.componentInstance.user = this.user;
   }
 
   // Resets the form fields

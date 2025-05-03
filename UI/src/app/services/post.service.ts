@@ -43,6 +43,7 @@ export class PostService {
   }
 
   createComment(comment: PostComment): Observable<PostComment> {
+    
     return this.http.post<PostComment>(`${this.baseUrl}${comment.post}/comments/`, comment);
   }
 
