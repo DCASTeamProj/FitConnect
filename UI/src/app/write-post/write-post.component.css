@@ -118,16 +118,33 @@ mat-icon {
 
 .post-image,
 .post-video {
-  max-width: 500px;
+  max-width: 150px;
+  max-height: 150px;
   margin-top: 10px auto;
   border-radius: 8px;
-  display: block;
+  display: flex;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .preview-container {
   margin-top: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.image-vid-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  max-height: 300px;
+  overflow: hidden;
 }
 
 .preview-image {
@@ -135,6 +152,8 @@ mat-icon {
   max-height: 75%;
   border-radius: 6px;
   justify-content: center;
+  object-fit: cover;
+  align-items: center;
 }
 
 .preview-video {
@@ -142,6 +161,7 @@ mat-icon {
   max-height: 75%;
   border-radius: 6px;
   justify-content: center;
+  object-fit: cover;
 }
 
 .post-image, .post-video {
@@ -150,6 +170,7 @@ mat-icon {
   border-radius: 6px;
   margin-top: 10px;
   justify-content: center;
+  object-fit: cover;
 }
 
 .default-icon {

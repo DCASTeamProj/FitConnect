@@ -5,14 +5,15 @@ import { Post } from '../Models/post.models';
 import { PostComment } from '../Models/comment.model';
 import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-write-post',
   templateUrl: './write-post.component.html',
   styleUrls: ['./write-post.component.css']
 })
-export class WritePostComponent {
-  @Input() user: any;
+export class WritePostComponent implements OnChanges {
+  @Input() user: User | null = null; // stores current user object
 
   newPost: string = '';
   newComment: string = '';
@@ -21,20 +22,37 @@ export class WritePostComponent {
   mediaPreview: string | null = null;
   mediaType: 'image' | 'video' | null = null;
 
-  constructor(private postService: PostService, private dialog: MatDialog) {}
+  constructor(private postService: PostService, private dialog: MatDialog, private userService: UserService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['user'] && this.user) {
+    if (changes['user'] && this.user && this.user.id) {
       this.loadUserPosts(); // Loads posts when user changes
     } 
   }
 
   loadUserPosts(): void {
-    if (this.user) {
-      const userId = (this.user as { id: number }).id; // Type assertion for user ID
-      this.postService.getUserPosts(userId).subscribe({
+    if (this.user && this.user.id) {
+      this.postService.getUserPosts(this.user.id).subscribe({
         next: (data) => {
-          this.posts = data.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime());
+          // Fetch user details for each post
+          this.posts = data.map(post => {
+            post.comments = post.comments || [];
+            if (typeof post.user === 'number') {
+              // Fetch user details if post.user is a user ID
+              this.userService.getUserById(post.user).subscribe(userDetails => {
+                post.user = userDetails; // Replace user ID with full user details
+              });
+            }
+
+            this.postService.getCommments(post.id!).subscribe({
+              next: (comments) => {
+                post.comments = comments; // attaches comments to post
+              },
+              error: (err) => console.error('Error fetching comments:', err)
+            });
+
+            return post;
+          });
         },
         error: (error) => {
           console.error('Error fetching user posts:', error);
@@ -60,30 +78,54 @@ export class WritePostComponent {
     }
   }
 
+  getUsername(post: Post): string {
+    if (typeof post.user === 'object' && post.user.username) {
+      return post.user.username;
+    }
+    return 'Unknown User';
+  }
+
+  getProfilePicture(post: Post): string {
+    if (typeof post.user === 'object' && post.user.profile_picture) {
+      return post.user.profile_picture;
+    }
+    return 'assets/images/profilePic.jpg'; 
+  }
+
   // Add post dynamically
   addPost(): void {
     if (!this.newPost.trim()) return;
 
-    const newPost: Post = {
-      user: this.user!.id,
-      content: this.newPost,
-      image: this.mediaPreview || undefined
-    };
+    if (!this.user || !this.user.id) {
+      console.error('User is not selected or invalid');
+      return;
+    }
 
-    this.postService.createPost(newPost).subscribe({
+    const formData = new FormData();
+    formData.append('user', this.user.id.toString());
+    formData.append('content', this.newPost);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.postService.createPost(formData).subscribe({
       next: (createdPost: Post) => {
         this.posts.unshift(createdPost); // Add the new post to the top of the list
-        this.resetForm();
+        this.newPost = ''; // Clear the input field
+        this.selectedFile = null;
+        this.mediaPreview = null; 
+        this.mediaType = null; 
       },
-      error: (err: any) => console.error('Error creating post:', err)
+      error: (err) => console.error('Error creating post:', err)
     });
   }
 
   showCommentDialog(post: Post): void {
-    this.dialog.open(CommentDialogComponent, {
+    const dialogRef = this.dialog.open(CommentDialogComponent, {
       width: '400px',
       data: post
     });
+    dialogRef.componentInstance.user = this.user;
   }
 
   // Resets the form fields

@@ -2,8 +2,9 @@
 <app-nav 
 [users]="users" 
 [selectedUser]="selectedUser"
-(userSelected)="onUserSelected($event)"></app-nav>
-
+(userSelected)="onUserSelected($event)"
+(userListUpdated)="loadUsers()">
+</app-nav>
 <div class="container">
   <!-- Left Sidebar -->
   <app-left-sidebar></app-left-sidebar>

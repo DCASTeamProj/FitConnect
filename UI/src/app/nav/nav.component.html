@@ -19,8 +19,8 @@
         </mat-form-field>
 
         <div class="nav-user-icon" matTooltip="Switch User" [matMenuTriggerFor]="userMenu">
-          <ng-container *ngIf="selectedUser; else defaultIcon">
-          <img [src]="selectedUser.profilePicture" alt="User Icon">
+          <ng-container *ngIf="selectedUser?.profile_picture; else defaultIcon">
+          <img [src]="selectedUser?.profile_picture" alt="User Icon">
           </ng-container>
           <ng-template #defaultIcon>
             <mat-icon class="default-icon">account_circle</mat-icon>
@@ -29,9 +29,14 @@
 
         <mat-menu #userMenu="matMenu">
           <ng-container *ngIf="users && users.length; else noUsers">
-            <button mat-menu-item *ngFor="let user of users" (click)="onUserSelect(user)">
-              {{ user.username }}
-            </button>
+            <div *ngFor="let user of users" class="user-menu-item">
+              <button mat-menu-item (click)="onUserSelect(user)">
+                {{ user.username }}
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteUser(user)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </ng-container>
           <ng-template #noUsers>
             <span class="no-users">No users found</span>
