@@ -101,11 +101,6 @@ export class WritePostComponent implements OnChanges {
       return;
     }
 
-    // const newPost: Post = {
-    //   user: this.user.id, // Associate the post with the selected user's ID
-    //   content: this.newPost,
-    //   image: undefined // Add image handling if needed
-    // };
     const formData = new FormData();
     formData.append('user', this.user.id.toString());
     formData.append('content', this.newPost);
@@ -117,6 +112,9 @@ export class WritePostComponent implements OnChanges {
       next: (createdPost: Post) => {
         this.posts.unshift(createdPost); // Add the new post to the top of the list
         this.newPost = ''; // Clear the input field
+        this.selectedFile = null;
+        this.mediaPreview = null; 
+        this.mediaType = null; 
       },
       error: (err) => console.error('Error creating post:', err)
     });
