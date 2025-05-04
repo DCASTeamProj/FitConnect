@@ -100,14 +100,20 @@ export class WritePostComponent implements OnChanges {
       console.error('User is not selected or invalid');
       return;
     }
-    
-    const newPost: Post = {
-      user: this.user.id, // Associate the post with the selected user's ID
-      content: this.newPost,
-      image: undefined // Add image handling if needed
-    };
 
-    this.postService.createPost(newPost).subscribe({
+    // const newPost: Post = {
+    //   user: this.user.id, // Associate the post with the selected user's ID
+    //   content: this.newPost,
+    //   image: undefined // Add image handling if needed
+    // };
+    const formData = new FormData();
+    formData.append('user', this.user.id.toString());
+    formData.append('content', this.newPost);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.postService.createPost(formData).subscribe({
       next: (createdPost: Post) => {
         this.posts.unshift(createdPost); // Add the new post to the top of the list
         this.newPost = ''; // Clear the input field

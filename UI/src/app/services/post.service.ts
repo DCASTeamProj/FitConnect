@@ -18,8 +18,8 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   //use when back end is connected
-  createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(this.baseUrl, post).pipe(
+  createPost(postData: FormData): Observable<Post> {
+    return this.http.post<Post>(this.baseUrl, postData).pipe(
       map((createdPost: Post) => {
         // Simulate adding the created post to the top of the list (if needed)
         console.log('API post created:', createdPost);

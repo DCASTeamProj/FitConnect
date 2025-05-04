@@ -118,13 +118,26 @@ mat-icon {
 
 .post-image,
 .post-video {
-  max-width: 500px;
+  max-width: 150px;
+  max-height: 150px;
   margin-top: 10px auto;
   border-radius: 8px;
-  display: block;
+  display: flex;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .preview-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.image-vid-container {
   margin-top: 10px;
   display: flex;
   justify-content: center;

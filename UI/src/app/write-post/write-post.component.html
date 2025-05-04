@@ -50,7 +50,9 @@
     </div>
   </div>
   <p class="post-content">{{ post.content }}</p>
-  <img *ngIf="post.image" [src]="post.image" alt="Post Image" class="post-image" />
+  <div class="image-vid-container">
+    <img *ngIf="post.image" [src]="post.image" alt="Post Image" class="post-image" />
+  </div>
   <div class="post-actions">
     <button mat-icon-button (click)="showCommentDialog(post)">
       <mat-icon>comment</mat-icon>
