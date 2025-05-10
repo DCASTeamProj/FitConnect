@@ -33,14 +33,9 @@ export class NavComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.userService.createUser(result).subscribe({
-          next: () => {
-            this.userListUpdated.emit(); // Emit event to notify parent to refresh the user list
+          this.userListUpdated.emit(); // Emit event to notify parent to refresh the user list
             console.log('New user added successfully.');
-          },
-          error: (err) => console.error('Error adding user:', err)
-        });
-      }
+          }
     });
   }  
 
