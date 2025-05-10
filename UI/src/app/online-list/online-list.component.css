@@ -1,6 +1,7 @@
 .online-list {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 20px;
   }
   
@@ -11,7 +12,9 @@
   }
   
   .online-list .online-now {
+    display: flex;
+    align-items: center;
     width: 40px;
     border-radius: 50%;
-    margin-right: 15px;
+    margin-bottom: 10px;
   }

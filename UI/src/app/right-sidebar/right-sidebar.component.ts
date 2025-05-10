@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../Models/user.model';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./right-sidebar.component.css']
 })
 export class RightSidebarComponent {
-
+  @Input() users: User[] = []; // Holds list of users from app.compon
 }

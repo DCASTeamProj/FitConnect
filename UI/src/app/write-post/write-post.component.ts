@@ -6,6 +6,7 @@ import { PostComment } from '../Models/comment.model';
 import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../services/user.service';
+import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-write-post',
@@ -133,6 +134,13 @@ export class WritePostComponent implements OnChanges {
     this.newPost = '';
     this.selectedFile = null;
     this.mediaPreview = null;
+  }
+
+  openImageDialog(imageUrl: string): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imageUrl },
+      panelClass: 'custom-dialog-container'
+    });
   }
   
 }

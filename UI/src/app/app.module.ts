@@ -27,6 +27,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NewUserDialogComponent } from './new-user-dialog/new-user-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommentDialogComponent } from './comment-dialog/comment-dialog.component';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CommentDialogComponent } from './comment-dialog/comment-dialog.componen
     EventComponent,
     OnlineListComponent,
     NewUserDialogComponent,
-    CommentDialogComponent
+    CommentDialogComponent,
+    ImageDialogComponent
   ],
   imports: [
     BrowserModule,

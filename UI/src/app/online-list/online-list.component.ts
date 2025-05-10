@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../Models/user.model';
 
 @Component({
   selector: 'app-online-list',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./online-list.component.css']
 })
 export class OnlineListComponent {
-
+ @Input() users: User[] = []; // Holds list of users from app.compon
 }

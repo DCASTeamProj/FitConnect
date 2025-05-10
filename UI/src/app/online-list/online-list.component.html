@@ -1,6 +1,6 @@
 <div class="online-list">
-    <div class="online-now">
-      <img src="/assets/images/mike.jpg">
+    <div *ngFor="let user of users" class="online-now">
+      <img [src]="user.profile_picture" alt="{{ user.username }}">
+      <p>{{ user.username }}</p>
     </div>
-    <p>Iron Mike</p>
   </div>

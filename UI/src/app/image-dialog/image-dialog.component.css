@@ -1,0 +1,23 @@
+.dialog-container {
+    text-align: center;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: white;
+    border-radius: 50%;
+    z-index: 10;
+  }
+
+  .close-button mat-icon {
+    line-height: 24px; 
+    display: inline-block; 
+    text-align: center;
+  }
+
+  .enlarged-image {
+    max-width: 850px;
+    max-height: 850px;
+  }
