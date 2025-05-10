@@ -125,6 +125,7 @@ mat-icon {
   display: flex;
   object-fit: cover;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .preview-container {
